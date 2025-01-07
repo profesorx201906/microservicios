@@ -6,6 +6,7 @@ import com.unir.productservice.entity.Product;
 import com.unir.productservice.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Product> getProduct(@PathVariable("id") String id) {
+        return productRepository.findById(null);
     }
 
     @PostMapping
