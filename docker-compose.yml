@@ -1,54 +1,28 @@
 version: '3.8'
+
 services:
   discovery-service:
-    build: ./discovery-service
+    build:
+      context: ./discovery-service
     ports:
       - "8761:8761"
     networks:
-      - microservices-net
+      - spring-network
+    environment:
+      - EUREKA_SERVER_URL=http://8761-old-forest-22658171.in-ws1.runcode.io/eureka/
 
   api-gateway:
-    build: ./api-gateway
+    build:
+      context: ./api-gateway
     ports:
       - "8080:8080"
+    networks:
+      - spring-network
     depends_on:
       - discovery-service
-    networks:
-      - microservices-net
-
-  product-service:
-    build: ./product-service
-    depends_on:
-      - discovery-service
-      - mongodb
-    networks:
-      - microservices-net
-
-  booking-microservice:
-    build: ./booking-microservice
-    depends_on:
-      - discovery-service
-      - mysql
-    networks:
-      - microservices-net
-
-  mongodb:
-    image: mongo:5.0
-    ports:
-      - "27017:27017"
-    networks:
-      - microservices-net
-
-  mysql:
-    image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: Qwerty2006.
-      MYSQL_DATABASE: bookingdb
-    ports:
-      - "3306:3306"
-    networks:
-      - microservices-net
+      - EUREKA_SERVER_URL=http://8761-old-forest-22658171.in-ws1.runcode.io/eureka/
 
 networks:
-  microservices-net:
+  spring-network:
     driver: bridge

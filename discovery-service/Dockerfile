@@ -1,13 +1,13 @@
-# Usa una imagen oficial de Java como base
+# Usa una imagen base de OpenJDK
 FROM openjdk:17-jdk-slim
 
-# Establece el directorio de trabajo
+# Configura el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo JAR al contenedor
-COPY target/discovery-service-0.0.1-SNAPSHOT.jar discovery-service.jar
+# Copia el archivo JAR generado desde el directorio target
+COPY target/discovery-service-0.0.1-SNAPSHOT.jar /app/discovery-service.jar
 
-# Expone el puerto de Eureka
+# Expón el puerto 8761
 EXPOSE 8761
 
 # Comando para ejecutar la aplicación

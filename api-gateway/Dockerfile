@@ -1,13 +1,13 @@
-# Usa una imagen oficial de Java como base
+# Usa una imagen base de OpenJDK
 FROM openjdk:17-jdk-slim
 
-# Establece el directorio de trabajo
+# Configura el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo JAR al contenedor
-COPY target/api-gateway-0.0.1-SNAPSHOT.jar api-gateway.jar
+# Copia el archivo JAR generado desde el directorio target
+COPY target/api-gateway-0.0.1-SNAPSHOT.jar /app/api-gateway.jar
 
-# Expone el puerto de la API Gateway
+# Expón el puerto 8080
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación
