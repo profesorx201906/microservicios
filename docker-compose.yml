@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   discovery-service:
     build:
@@ -9,7 +7,10 @@ services:
     networks:
       - spring-network
     environment:
-      - EUREKA_SERVER_URL=http://8761-old-forest-22658171.in-ws1.runcode.io/eureka/
+      - SPRING_APPLICATION_NAME=discovery-service
+      - SERVER_PORT=8761
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
 
   api-gateway:
     build:
@@ -21,8 +22,9 @@ services:
     depends_on:
       - discovery-service
     environment:
-      - EUREKA_SERVER_URL=http://8761-old-forest-22658171.in-ws1.runcode.io/eureka/
-
+      - SPRING_APPLICATION_NAME=api-gateway
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=true
 networks:
   spring-network:
     driver: bridge
