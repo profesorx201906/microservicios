@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Product> getProduct(@PathVariable("id") String id) {
-        return productRepository.findById(null);
+        return productRepository.findById(id);
     }
 
     @PostMapping
