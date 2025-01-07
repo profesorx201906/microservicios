@@ -40,6 +40,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin(origins = "*")
     public String deleteProduct(@PathVariable("id") String id){
         productRepository.deleteById(id);
         return "ok";
