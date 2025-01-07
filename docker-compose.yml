@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   discovery-service:
     build:
@@ -25,6 +27,38 @@ services:
       - SPRING_APPLICATION_NAME=api-gateway
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
       - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=true
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "8081:8081"
+    networks:
+      - spring-network
+    depends_on:
+      - discovery-service
+      - mongodb
+    environment:
+      - SPRING_APPLICATION_NAME=product-microservice
+      - SERVER_PORT=8081
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=unir
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - spring-network
+    volumes:
+      - mongo-data:/data/db
+
 networks:
   spring-network:
     driver: bridge
+
+volumes:
+  mongo-data:
